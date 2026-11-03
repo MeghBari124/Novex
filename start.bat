@@ -6,7 +6,7 @@ setlocal enabledelayedexpansion
 echo.
 echo  =============================================
 echo  ^|                                           ^|
-echo  ^|     LET'S GO 3.0 - FULL STACK LAUNCHER    ^|
+echo  ^|     Novex - FULL STACK LAUNCHER    ^|
 echo  ^|     Annadata Saathi Agriculture Platform   ^|
 echo  ^|                                           ^|
 echo  =============================================

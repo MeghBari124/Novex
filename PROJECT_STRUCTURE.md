@@ -1,7 +1,7 @@
 # Project Directory Structure
 
 ```text
-Let_Go_3.0/
+Novex/
 ├── check_db_data.py
 ├── check_tables.py
 ├── COMPLETE_FIX_GUIDE.md
