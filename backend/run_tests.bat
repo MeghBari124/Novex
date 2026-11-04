@@ -1,0 +1,13 @@
+@echo off
+echo Starting backend server...
+start "Backend Server" cmd /k "python -m uvicorn main:app --host 0.0.0.0 --port 8000"
+
+echo Waiting for server to start...
+timeout /t 10 /nobreak >nul
+
+echo Running tests...
+python test_extensions.py
+
+echo.
+echo Tests complete! Press any key to exit...
+pause

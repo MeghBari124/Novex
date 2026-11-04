@@ -1,0 +1,102 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI Farming Assistant</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                font-family: 'Segoe UI', sans-serif;
+                background: linear-gradient(135deg, #1a6b2f, #2d9e4f);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 24px;
+            }
+            h1 { color: white; font-size: 1.4rem; letter-spacing: 1px; opacity: 0.9; }
+            .call-btn {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: #25d366;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+                animation: ring 2s infinite;
+                transition: transform 0.2s;
+            }
+            .call-btn:hover { transform: scale(1.08); }
+            .call-btn:active { transform: scale(0.95); }
+            .call-btn.calling {
+                background: #e74c3c;
+                animation: none;
+            }
+            .call-btn svg { width: 48px; height: 48px; fill: white; }
+            @keyframes ring {
+                0%   { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+                70%  { box-shadow: 0 0 0 20px rgba(37,211,102,0); }
+                100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+            }
+            .status {
+                color: white;
+                font-size: 0.95rem;
+                opacity: 0;
+                transition: opacity 0.3s;
+                min-height: 24px;
+            }
+            .status.show { opacity: 1; }
+        </style>
+    </head>
+    <body>
+        <h1>🌾 AI Farming Assistant</h1>
+
+        <button class="call-btn" id="callBtn" onclick="makeCall()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+            </svg>
+        </button>
+
+        <p class="status" id="status">Tap to connect with AI Agent</p>
+
+        <script>
+            document.getElementById('status').classList.add('show');
+
+            async function makeCall() {
+                const btn = document.getElementById('callBtn');
+                const status = document.getElementById('status');
+
+                btn.disabled = true;
+                btn.classList.add('calling');
+                status.textContent = 'Connecting...';
+
+                try {
+                    const res = await fetch('/initiate-call', { method: 'POST' });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        status.textContent = 'Incoming call on your phone...';
+                    } else {
+                        status.textContent = data.detail || 'Failed to connect';
+                        reset(btn);
+                    }
+                } catch {
+                    status.textContent = 'Error. Try again.';
+                    reset(btn);
+                }
+            }
+
+            function reset(btn) {
+                btn.disabled = false;
+                btn.classList.remove('calling');
+            }
+        </script>
+    </body>
+    </html>
+    
